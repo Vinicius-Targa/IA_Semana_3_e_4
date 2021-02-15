@@ -97,9 +97,6 @@ class BFSAgent(Agent):
 
         # Add visited node 
         self.visited.append(path[-1])
-
-        # From the list of viable neighbors given by the environment
-        # Select a random neighbor that has not been visited yet
         
         viable_neighbors =  self.percepts['neighbors']
 
@@ -152,18 +149,18 @@ class DFSAgent(Agent):
 
         # Add visited node 
         self.visited.append(path[-1])
-
-        # From the list of viable neighbors given by the environment
-        # Select a random neighbor that has not been visited yet
         
         viable_neighbors =  self.percepts['neighbors']
-
-        aux = false
 
         # If the agent is not stuck
         if viable_neighbors: 
             for neighbor in viable_neighbors:
-                self.frontier = [path + [neighbor]] + self.frontier
+                try:
+                    self.visited.index(neighbor)
+                except ValueError:
+                    self.frontier = [path + [neighbor]] + self.frontier
+                else:
+                    break
 
     def run(self):
         """Keeps the agent acting until it finds the target
